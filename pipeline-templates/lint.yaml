@@ -2,17 +2,18 @@ parameters:
   pool: ''
 
 jobs:
-  - job: TSLint
+  - job: ESLint
     pool:
       ${{ if eq(parameters.useOneEngineeringPool, 'true') }}:
         ${{ parameters.pool }}
       ${{ else }}:
         vmImage: ${{ parameters.pool.vmImage }}
-    displayName: '🧶 TSLint'
+    displayName: '🧶 ESLint'
     steps:
     - template: install-node.yaml
+    - script: ./build.sh
+      displayName: 🐧 Build To Install Deps
     - bash: |
-        npm install --cache /temp/empty-cache
-        npm install tslint --reg https://registry.npmjs.org/ --verbose
+        npm ci eslint@^8.57.0 @typescript-eslint/parser@^8.0.0 @typescript-eslint/eslint-plugin@^8.0.0 --save-dev
         npm run lint
       displayName: 🧶 Run Lint

@@ -2,7 +2,6 @@
 # URL: https://dev.azure.com/dnceng-public/public/_build?definitionId=60
 
 trigger:
-  batch: true
   branches:
     include:
     - main
@@ -28,14 +27,17 @@ parameters:
   type: object
   default:
   - name: NetCore-Public
+    vmImage: windows-latest
+    os: windows
+    emoji: 🪟
+  - name: NetCore-Public
     vmImage: ubuntu-latest
     os: linux
+    emoji: 🐧
   - name: NetCore-Public
     vmImage: macOS-latest
     os: macOS
-  - name: NetCore-Public
-    vmImage: windows-latest
-    os: windows
+    emoji: 🍎
 
 stages:
 - stage: o # o is just used so it looks like a bullet point in the output of devops
@@ -46,18 +48,19 @@ stages:
         pool:
           vmImage: ${{ image.vmImage }}
           os: ${{ image.os }}
+          emoji: ${{ image.emoji }}
         useOneEngineeringPool: false
   - template: pipeline-templates/upstream-verify.yaml
     parameters:
       pool:
-        vmImage: windows-latest
-        os: windows
+        vmImage: macOS-latest
+        os: macOS
       useOneEngineeringPool: false
   - template: pipeline-templates/lint.yaml
     parameters:
       pool:
-        vmImage: windows-latest
-        os: windows
+        vmImage: macOS-latest
+        os: macOS
       useOneEngineeringPool: false
   - template: pipeline-templates/package-vsix.yaml
     parameters:
@@ -65,3 +68,4 @@ stages:
         vmImage: windows-latest
         os: windows
       useOneEngineeringPool: false
+      SignType: Test

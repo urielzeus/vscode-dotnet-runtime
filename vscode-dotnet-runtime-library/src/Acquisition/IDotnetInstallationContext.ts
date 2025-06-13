@@ -3,7 +3,7 @@
 *  The .NET Foundation licenses this file to you under the MIT license.
 *--------------------------------------------------------------------------------------------*/
 
-import { DotnetInstallType } from '..';
+import { DotnetInstallType } from '../IDotnetAcquireContext';
 import { DotnetInstallMode } from './DotnetInstallMode';
 
 export interface IDotnetInstallationContext {
@@ -11,7 +11,6 @@ export interface IDotnetInstallationContext {
     version: string;
     dotnetPath: string;
     timeoutSeconds: number;
-    installRuntime: boolean; // kept to remove breaking change
     installMode : DotnetInstallMode;
     installType : DotnetInstallType;
     architecture: string;
